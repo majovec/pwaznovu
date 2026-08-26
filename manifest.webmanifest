@@ -1,6 +1,6 @@
 {
   "name": "Finance pod kontrolou",
-  "short_name": "Finance",
+  "short_name": "Znovu Silnější",
   "icons": [
     {
       "src": "./icons/icon-192.png?v=2",
@@ -13,7 +13,7 @@
       "type": "image/png"
     }
   ],
-  "start_url": "./",
+  "start_url": "/nazev-vaseho-repozitare/",
   "display": "standalone",
   "background_color": "#0b6b4f",
   "theme_color": "#0b6b4f"
