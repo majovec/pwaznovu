@@ -72,7 +72,10 @@ function layout() {
   app.innerHTML = `
     <div class="shell">
       <aside class="sidebar">
-        <div class="brand"><div class="logo">€</div><div><strong>Finance pod kontrolou</strong><span>Přehled vytváří klid.</span></div></div>
+        <div class="brand">
+          <img src="./icons/icon-192.png" class="logo-img" alt="Logo">
+          <div><strong>Finance pod kontrolou</strong><span>Přehled vytváří klid.</span></div>
+        </div>
         <nav>${navItems().map(n=>`<button class="${state.page===n.id?"active":""}" data-page="${n.id}"><span>${n.icon}</span>${n.label}</button>`).join("")}</nav>
         <div class="sidebar-bottom">
           <button class="ghost" id="installBtn" hidden>＋ Přidat do zařízení</button>
@@ -107,7 +110,11 @@ function navItems(){ return [
 
 function renderAuth(app) {
   app.innerHTML = `<div class="auth-wrap"><div class="auth-card">
-    <div class="auth-brand"><div class="logo big">€</div><h1>Finance pod kontrolou</h1><p>Přehled vytváří klid.</p></div>
+    <div class="auth-brand">
+      <img src="./icons/icon-192.png" class="logo-img big" alt="Logo">
+      <h1>Finance pod kontrolou</h1>
+      <p>Přehled vytváří klid.</p>
+    </div>
     <div class="tabs"><button class="tab active" data-auth="login">Přihlášení</button><button class="tab" data-auth="register">Registrace</button></div>
     <form id="authForm"><label>Email<input id="email" type="email" autocomplete="email" required></label>
     <label id="nameWrap" style="display:none">Jméno<input id="name" autocomplete="name"></label>
@@ -264,13 +271,10 @@ function renderAI(c){
   };
 }
 
-// CHYTRÝ LOKÁLNÍ ANALYZÁTOR (Zpracuje 100 různých formulací od 100 lidí)
 function answerAI(rawQuery){
   const q = rawQuery.toLowerCase();
   const s = summary();
-  const allTx = state.transactions;
 
-  // 1. Detekce specifických kategorií přes synonyma (jídlo, bydlení, energie, doprava, zábava, zdraví)
   const categoryKeywords = {
     "jídlo": ["jídlo", "jidlo", "potraviny", "oběd", "obedy", "večeře", "restaurace", "nakup", "nákup", "žrádlo", "jidlem", "potravin"],
     "bydlení": ["bydlení", "bydleni", "nájem", "najem", "bytu", "hypotéka", "hypoteka"],
@@ -288,7 +292,6 @@ function answerAI(rawQuery){
     }
   }
 
-  // Pokud uživatel hledá konkrétní kategorii
   if (matchedCategoryKey) {
     const targetCat = state.categories.find(c => c.name.toLowerCase().includes(matchedCategoryKey) || matchedCategoryKey.includes(c.name.toLowerCase()));
     if (targetCat) {
@@ -299,7 +302,6 @@ function answerAI(rawQuery){
     }
   }
 
-  // 2. Dotazy na celkový stav / zůstatek / peníze / jak na tom jsem
   if (q.includes("stav") || q.includes("zůstatek") || q.includes("zustatek") || q.includes("jak na tom") || q.includes("peníze") || q.includes("penize") || q.includes("rozpočet") || q.includes("rozpocet") || q.includes("měsíc") || q.includes("mesic") || q.includes("bilance")) {
     let msg = `Tento měsíc máš celkové příjmy ${money(s.income)} a výdaje ${money(s.expense)}. Tvůj aktuální finanční výsledek je ${money(s.result)}.`;
     if (s.result < 0) {
@@ -310,20 +312,17 @@ function answerAI(rawQuery){
     return msg;
   }
 
-  // 3. Dotazy na výdaje / útratu obecně
   if (q.includes("výdaj") || q.includes("vydaj") || q.includes("utratil") || q.includes("utratila") || q.includes("utrác") || q.includes("kam šly") || q.includes("kam syly") || q.includes("prachy")) {
     const sortedCats = Object.entries(s.byCat).sort((a,b) => b[1] - a[1]);
     if (sortedCats.length === 0) return `Tento měsíc zatím nemáš evidované žádné výdaje.`;
     const topCat = state.categories.find(c => c.id === sortedCats[0][0]);
-    return `Tento měsíc jí celkově utratil/a ${money(s.expense)}. Nejvíce peněz ti odteklo do kategorie „${topCat?.name || "Ostatní"}“, kde to dělá ${money(sortedCats[0][1])}.`;
+    return `Tento měsíc jís celkově utratil/a ${money(s.expense)}. Nejvíce peněz ti odteklo do kategorie „${topCat?.name || "Ostatní"}“, kde to dělá ${money(sortedCats[0][1])}.`;
   }
 
-  // 4. Dotazy na příjmy
   if (q.includes("příjem") || q.includes("prijem") || q.includes("výplata") || q.includes("vyplata") || q.includes("vyděl") || q.includes("vydel")) {
     return `Tento měsíc máš evidované celkové příjmy ve výši ${money(s.income)}.`;
   }
 
-  // 5. Dotazy na cíle / dluhy / rezervy
   if (q.includes("cíl") || q.includes("cil") || q.includes("rezerv") || q.includes("dluh") || q.includes("splat")) {
     if (state.goals.length === 0) return `Zatím nemáš nastavené žádné finanční cíle. Můžeš si nějaký vytvořit v záložce Cíle.`;
     let res = `Máš celkem ${state.goals.length} aktivní cíl(e):\n`;
@@ -334,14 +333,12 @@ function answerAI(rawQuery){
     return res.trim();
   }
 
-  // 6. Dotazy na investice / spoření
   if (q.includes("invest") || q.includes("spoř") || q.includes("spor") || q.includes("aktiva")) {
     const savings = state.investments.filter(x=>x.isSavings).reduce((a,x)=>a+Number(x.amount),0);
     const invested = state.investments.filter(x=>!x.isSavings).reduce((a,x)=>a+Number(x.amount),0);
     return `V evidenci máš celkem ${money(savings)} ve spoření a ${money(invested)} v investicích.`;
   }
 
-  // 7. Univerzální fallback – pokud uživatel zadá cokoliv jiného, sestavíme inteligentní personalizovaný přehled
   return `Zpracoval jsem tvá aktuální data: Tento měsíc máš příjmy ${money(s.income)}, výdaje ${money(s.expense)} a zbývá ti ${money(s.result)}. Pokud chceš vědět detail, zeptej se mě konkrétně na „výdaje“, „jídlo“, „příjmy“ nebo „cíle“.`;
 }
 
