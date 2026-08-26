@@ -258,7 +258,7 @@ function renderSettings(c){
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();state.installPrompt=e; if(state.user)layout();});
 async function installPWA(){if(!state.installPrompt)return;state.installPrompt.prompt();await state.installPrompt.userChoice;state.installPrompt=null;layout();}
 
-if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));
+if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
 onAuthStateChanged(auth, async user=>{
   state.user=user;
   if(user){try{await loadAll();}catch(e){console.error(e);}state.page="dashboard";}
