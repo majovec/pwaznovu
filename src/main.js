@@ -73,7 +73,7 @@ function layout() {
     <div class="shell">
       <aside class="sidebar">
         <div class="brand">
-          <img src="./icons/icon-192.png" class="logo-img" alt="Logo">
+          <img src="/icons/icon-192.png" class="logo-img" alt="Logo">
           <div><strong>Finance pod kontrolou</strong><span>Přehled vytváří klid.</span></div>
         </div>
         <nav>${navItems().map(n=>`<button class="${state.page===n.id?"active":""}" data-page="${n.id}"><span>${n.icon}</span>${n.label}</button>`).join("")}</nav>
@@ -111,7 +111,7 @@ function navItems(){ return [
 function renderAuth(app) {
   app.innerHTML = `<div class="auth-wrap"><div class="auth-card">
     <div class="auth-brand">
-      <img src="./icons/icon-192.png" class="logo-img big" alt="Logo">
+      <img src="/icons/icon-192.png" class="logo-img big" alt="Logo">
       <h1>Finance pod kontrolou</h1>
       <p>Přehled vytváří klid.</p>
     </div>
