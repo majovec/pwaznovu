@@ -44,7 +44,8 @@ h1, h2, h3, p { margin-top: 0; }
 .logo.big { width: 68px; height: 68px; font-size: 34px; margin: auto; }
 
 .sidebar nav { display: grid; gap: 5px; }
-.sidebar nav button, .ghost { width: 100%; text-align: left; background: transparent; color: var(--muted); padding: 12px; border-radius: 10px; font-weight: 600; }
+.sidebar nav button, .ghost { width: 100%; text-align: left; background: transparent; color: var(--muted); padding: 12px; border-radius: 10px; font-weight: 600; display: flex; align-items: center; gap: 12px; }
+.sidebar nav button span.icon, .sidebar nav button i { display: inline-block; width: 20px; text-align: center; font-style: normal; }
 .sidebar nav button:hover, .sidebar nav .active { background: rgba(212, 175, 55, 0.12); color: var(--primary); }
 .sidebar-bottom { margin-top: auto; display: grid; gap: 4px; }
 .danger { color: var(--danger) !important; }
@@ -147,7 +148,7 @@ h1, h2, h3, p { margin-top: 0; }
 .setting b { color: var(--text); }
 .setting small { color: var(--muted); margin-top: 3px; }
 
-.auth-wrap { min-height: 100vh; display: grid; place-items: center; padding: 20px; background: var(--bg); }
+.auth-wrap { min-height: 100vh; display: grid; place-info: center; padding: 20px; background: var(--bg); display: grid; place-items: center; }
 .auth-card { width: min(440px, 100%); background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 32px; box-shadow: var(--shadow); }
 .auth-brand { text-align: center; margin-bottom: 24px; }
 .auth-brand h1 { font-size: 24px; margin: 16px 0 4px; color: var(--text); }
@@ -175,7 +176,7 @@ h1, h2, h3, p { margin-top: 0; }
   .sidebar.open { 
     display: flex !important; 
   }
-  .mobile-head { height: 62px; padding: 0 16px; display: flex; gap: 12px; align-items: center; border-bottom: 1px solid var(--line); background: var(--card); position: sticky; top: 0; z-index: 3; }
+  .mobile-head { height: 62px; padding: 0 16px; display: flex; gap: 12px; align-items: center; border-bottom: 1px solid var(--line); background: var(--card); position: sign; position: sticky; top: 0; z-index: 3; }
   .mobile-head button { background: transparent; color: var(--text); font-size: 20px; }
   .main > #content { padding: 24px 16px 90px; }
   .hero-grid, .month-grid, .grid { grid-template-columns: 1fr; }
