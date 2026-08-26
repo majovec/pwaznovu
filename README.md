@@ -36,3 +36,7 @@ Pak nasadit pravidla:
 ## Poznámka k AI/OCR
 
 Android verze používala lokální AI model a OCR pipeline. Webová verze záměrně nepřenáší 2–4GB model do PWA. Finanční rádce je zatím lokální pravidlový modul a účtenka se ukládá do Firebase Storage. Pro produkční OCR/AI lze následně připojit zabezpečený backend/Cloud Function bez změny datového modelu.
+
+
+## Ikona
+PWA používá dodané logo ZNOVU SILNĚJŠÍ jako `icons/icon-192.png` a `icons/icon-512.png`.
