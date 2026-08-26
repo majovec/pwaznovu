@@ -87,8 +87,20 @@ function layout() {
       </aside>
       <main class="main"><div class="mobile-head"><button id="menuBtn">☰</button><strong>Finance pod kontrolou</strong></div><div id="content"></div></main>
     </div>`;
-  document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>{state.page=b.dataset.page; layout();});
+  document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>{
+    state.page=b.dataset.page; 
+    document.querySelector(".sidebar")?.classList.remove("open");
+    layout();
+  });
   document.querySelector("#logout").onclick=async()=>{await signOut(auth);};
+  
+  // Otevírání/zavírání menu na mobilu
+  const menuBtn = document.querySelector("#menuBtn");
+  const sidebar = document.querySelector(".sidebar");
+  if (menuBtn && sidebar) {
+    menuBtn.onclick = () => sidebar.classList.toggle("open");
+  }
+
   if(state.installPrompt) { const b=document.querySelector("#installBtn"); b.hidden=false; b.onclick=installPWA; }
   renderPage();
 }
